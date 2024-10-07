@@ -2,7 +2,8 @@ import csv
 import random
 
 from cards_data import banks, payment_systems_codes
-from functions import generate_name, generate_passport, generate_snils, generate_unique_card, generate_doctors_data, generate_analyses_date, generate_price, generate_visit_date
+from functions import (generate_name, generate_passport, generate_snils, generate_unique_card, generate_doctors_data,
+                        generate_analyses_date, generate_price, generate_visit_date, generate_next_visit_date)
 
 
 while True:
@@ -30,12 +31,16 @@ for _ in range(int(n*0.7)):
     name = generate_name()
     passport = generate_passport()
     snils = generate_snils()
+    visit_date = generate_visit_date()
+    analyses_date = generate_analyses_date(visit_date)
     card = generate_unique_card(bank_weights, payment_weights)
     
     unique_patients.append({
         "ФИО": name,
         "Паспортные данные": passport,
         "СНИЛС": snils,
+        "Дата посещения врача": visit_date,
+        "Дата получения анализов": analyses_date,
         "Карта оплаты": card
     })
 
@@ -46,10 +51,6 @@ for _ in range(n):
     doctor = generate_doctors_data(False)
     symptoms = generate_doctors_data(doctor)[0]
     analyses = generate_doctors_data(doctor)[1]
-
-    visit_date = generate_visit_date()
-    analyses_date = generate_analyses_date(visit_date)
-
     price = generate_price()
 
     record = {
@@ -58,12 +59,16 @@ for _ in range(n):
         "СНИЛС": patient["СНИЛС"],
         "Симптомы": ', '.join(symptoms),
         "Выбор врача": doctor,
-        "Дата посещения врача": visit_date,
+        "Дата посещения врача": patient["Дата посещения врача"],
         "Анализы": ', '.join(analyses),
-        "Дата получения анализов": analyses_date,
+        "Дата получения анализов": patient["Дата получения анализов"],
         "Стоимость анализов": price,
         "Карта оплаты": ', '.join(patient["Карта оплаты"])
     }
+
+    patient["Дата посещения врача"] = generate_next_visit_date(patient["Дата получения анализов"])
+    patient["Дата получения анализов"] = generate_analyses_date(patient["Дата посещения врача"])
+
     slots.append(record)
 
 with open('1 Lab/dataset.csv', mode='w', newline='', encoding='utf-8') as file:

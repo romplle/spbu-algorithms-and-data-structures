@@ -39,21 +39,49 @@ def generate_doctors_data(doctor):
         symptoms, tests = doctors_data[doctor]
 
         random_symptoms = random.sample(symptoms, random.choices(range(1, 11), weights=[6, 7, 8, 7, 6, 5, 4, 3, 2, 1])[0])
-        random_symptoms = random.sample(tests, random.choices(range(1, 6), weights=[2, 3, 2, 1, 1])[0])
-
-        random_tests = random.sample(tests, random.randint(1, 5))
+        random_tests = random.sample(tests, random.choices(range(1, 6), weights=[2, 3, 2, 1, 1])[0])
 
         return random_symptoms, random_tests
-    
+  
 def generate_visit_date():
     today = datetime.now()
-    while True:
-        visit_date = today + timedelta(days=random.randint(0, 30))
-        if visit_date.weekday() < 5:
-            return visit_date
-        
+    visit_date = today + timedelta(days=random.randint(-365 * 2, 90))
+    
+    while visit_date.weekday() >= 5:
+        visit_date += timedelta(days=1)
+    
+    visit_time = timedelta(hours=random.randint(9, 18), minutes=random.randint(0, 59))
+    visit_date = visit_date.replace(hour=0, minute=0, second=0, microsecond=0) + visit_time
+    
+    return visit_date
+
 def generate_analyses_date(visit_date):
-    return visit_date + timedelta(hours=random.randint(24, 72))
+    analyses_date = visit_date + timedelta(hours=random.randint(24, 72))
+
+    while analyses_date.weekday() >= 5:
+        analyses_date += timedelta(days=1)
+
+    if analyses_date.hour < 9:
+        analyses_date = analyses_date.replace(hour=random.randint(9, 10), minute=random.randint(0, 59))
+    elif analyses_date.hour >= 18:
+        analyses_date += timedelta(days=1)
+        analyses_date = analyses_date.replace(hour=random.randint(9, 10), minute=random.randint(0, 59))
+        
+    return analyses_date
+
+def generate_next_visit_date(analyses_date):
+    next_visit_date = analyses_date + timedelta(days=random.randint(0, 90), hours=random.randint(24, 48))
+    
+    while next_visit_date.weekday() >= 5:
+        next_visit_date += timedelta(days=1)
+    
+    if next_visit_date.hour < 9:
+        next_visit_date = next_visit_date.replace(hour=random.randint(9, 10), minute=random.randint(0, 59))
+    elif next_visit_date.hour >= 18:
+        next_visit_date += timedelta(days=1)
+        next_visit_date = next_visit_date.replace(hour=random.randint(9, 10), minute=random.randint(0, 59))
+    
+    return next_visit_date
 
 used_cards = {}
 def generate_card(bank_weights, payment_weights):
