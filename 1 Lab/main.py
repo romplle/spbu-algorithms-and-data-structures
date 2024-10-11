@@ -2,8 +2,8 @@ import csv
 import random
 
 from cards_data import banks, payment_systems_codes
-from functions import (generate_name, generate_passport, generate_snils, generate_unique_card, generate_doctors_data,
-                        generate_analyses_date, generate_price, generate_visit_date, generate_next_visit_date)
+from generation_functions import (generate_name, generate_passport, generate_snils, generate_unique_card, generate_doctors_data,
+                                  generate_analyses_date, generate_price, generate_visit_date, generate_next_visit_date)
 
 
 while True:

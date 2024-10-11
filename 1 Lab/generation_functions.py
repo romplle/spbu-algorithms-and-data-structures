@@ -45,7 +45,7 @@ def generate_doctors_data(doctor):
   
 def generate_visit_date():
     today = datetime.now()
-    visit_date = today + timedelta(days=random.randint(-365 * 2, 90))
+    visit_date = today + timedelta(days=random.randint(-183 * 3, 30))
     
     while visit_date.weekday() >= 5:
         visit_date += timedelta(days=1)
@@ -70,7 +70,7 @@ def generate_analyses_date(visit_date):
     return analyses_date
 
 def generate_next_visit_date(analyses_date):
-    next_visit_date = analyses_date + timedelta(days=random.randint(0, 90), hours=random.randint(24, 48))
+    next_visit_date = analyses_date + timedelta(days=random.randint(0, 30), hours=random.randint(24, 48))
     
     while next_visit_date.weekday() >= 5:
         next_visit_date += timedelta(days=1)
@@ -105,4 +105,4 @@ def generate_unique_card(bank_weights, payment_weights):
             return card_number, bank, payment_system
 
 def generate_price():
-    return str(random.randint(1000, 10000)) + ' руб.'
+    return str(random.randint(500, 10000)) + ' руб.'
