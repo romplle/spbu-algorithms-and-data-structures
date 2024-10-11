@@ -1,1 +1,7 @@
-1 Lab/__pycache__/
+**/__pycache__/
+
+1 Lab/dataset.csv
+
+2 Lab/anon_dataset.csv
+2 Lab/good_k_values.csv
+2 Lab/bad_k_values.csv
