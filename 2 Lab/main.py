@@ -1,6 +1,6 @@
 import pandas as pd
 
-from anonymization_functions import determine_gender, categorize_cost, anonymize_passport, anonymize_card, anonymize_snils, anonymize_symptoms, anonymize_doctor, anonymize_analyses
+from anonymization_functions import anonymize_fullname, anonymize_passport, anonymize_snils, anonymize_symptoms, anonymize_doctor, anonymize_analyses, anonymize_cost, anonymize_card
 
 df = pd.read_csv("1 Lab/dataset.csv")
 
@@ -15,7 +15,7 @@ def input_quasi_identifiers():
                 quasi_identifiers.append(field)
                 break
             elif answer.lower() in ['n', 'н']:
-                break
+                break   
             else:
                 print("Нужно ввести y или n!")
     return quasi_identifiers
@@ -27,7 +27,7 @@ def anonymize_data(quasi_identifiers):
 
     for field in quasi_identifiers:
         if field == 'ФИО':
-            df['ФИО'] = df['ФИО'].apply(determine_gender)
+            df['ФИО'] = df['ФИО'].apply(anonymize_fullname)
         elif field == 'Паспортные данные':
             df['Паспортные данные'] = df['Паспортные данные'].apply(anonymize_passport)
         elif field == 'СНИЛС':
@@ -43,7 +43,7 @@ def anonymize_data(quasi_identifiers):
         elif field == 'Дата получения анализов':
             df['Дата получения анализов'] = pd.to_datetime(df['Дата получения анализов']).dt.year
         elif field == 'Стоимость анализов':
-            df['Стоимость анализов'] = df['Стоимость анализов'].apply(categorize_cost)
+            df['Стоимость анализов'] = df['Стоимость анализов'].apply(anonymize_cost)
         elif field == 'Карта оплаты':
             df['Карта оплаты'] = df['Карта оплаты'].apply(anonymize_card)
 

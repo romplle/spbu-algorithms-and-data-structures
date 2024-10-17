@@ -2,8 +2,8 @@ import pandas as pd
 
 from doctors_data import doctors_departments, symptoms_categories, analyses_categories
 
-def determine_gender(fio):
-    name = fio.split()[2] 
+def anonymize_fullname(fullname):
+    name = fullname.split()[2] 
     if name.endswith('а'):
         return 'Ж'
     else:
@@ -14,18 +14,6 @@ def anonymize_passport(passport):
 
 def anonymize_snils(snils):
     return '*' * 3 + '-' + '*' * 3 + '-' + '*' * 3 + ' ' + '*' * 2
-
-def categorize_cost(cost):
-    cost_value = int(cost.split()[0])
-    if cost_value <= 3500:
-        return '0-3500 руб.'
-    elif 3501 < cost_value <= 7000:
-        return '3501-7000 руб.'
-    else:
-        return '7001+ руб.'
-
-def anonymize_card(card):
-    return card.split(', ')[1]
 
 def anonymize_symptoms(symptoms):
     symptom_list = symptoms.split(", ")
@@ -62,4 +50,16 @@ def anonymize_analyses(analyses):
         if first_analysis in analyses_list:
             return analyses_category
     
-    return 'X'
+    return 'Неизвестный'
+
+def anonymize_cost(cost):
+    cost_value = int(cost.split()[0])
+    if cost_value <= 3500:
+        return '0-3500 руб.'
+    elif 3501 < cost_value <= 7000:
+        return '3501-7000 руб.'
+    else:
+        return '7001+ руб.'
+
+def anonymize_card(card):
+    return card.split(', ')[1]
