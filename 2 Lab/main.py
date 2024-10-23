@@ -104,8 +104,8 @@ if __name__ == "__main__":
 
     if (0 < len(bad_k_values) < len(df) * 0.05):
         df = remove_bad_k_anonymity_records(df, bad_k_values)
+        bad_k_values, good_k_values = calculate_k_anonymity()
     
-    bad_k_values, good_k_values = calculate_k_anonymity()
     print_k_values(bad_k_values, good_k_values)
 
     df.to_csv('2 Lab/anon_dataset.csv', index=False, encoding='utf-8')
