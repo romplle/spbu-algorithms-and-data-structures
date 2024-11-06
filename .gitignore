@@ -5,3 +5,11 @@
 2 Lab/anon_dataset.csv
 2 Lab/good_k_values.csv
 2 Lab/bad_k_values.csv
+
+3 Lab/hashcat terminal output.txt
+3 Lab/md5_small_salt_hashes.txt
+3 Lab/sha1_small_salt_hashes.txt
+3 Lab/blake2b_small_salt_hashes.txt
+3 Lab/md5_large_salt_hashes.txt
+3 Lab/sha1_large_salt_hashes.txt
+3 Lab/blake2b_large_salt_hashes.txt
