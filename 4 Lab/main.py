@@ -6,12 +6,15 @@ def function(x1, x2):
     return x1**3 + x2**2 - 3 * x1 - 2 * x2 + 2
 
 def create_initial_population():
-    return [(random.uniform(min_value, max_value), random.uniform(min_value, max_value)) for _ in range(number_of_chromosomes)]
+    if use_real_version.get():
+        return [(random.uniform(min_value, max_value), random.uniform(min_value, max_value)) for _ in range(number_of_chromosomes)]
+    else:
+        return [(random.randint(min_value, max_value), random.randint(min_value, max_value)) for _ in range(number_of_chromosomes)]
 
 def fitness(individual):
     x1, x2 = individual
     if function(x1, x2) == -1:
-        return 0
+        return float("inf")
     return 1 / (1 + function(x1, x2))
 
 def segment_population(population):
@@ -24,41 +27,56 @@ def ranking_selection(segment):
 def crossover(parent1, parent2, alpha=0.5):
     child1 = alpha * parent1[0] + (1 - alpha) * parent2[0], alpha * parent1[1] + (1 - alpha) * parent2[1]
     child2 = (1 - alpha) * parent1[0] + alpha * parent2[0], (1 - alpha) * parent1[1] + alpha * parent2[1]
+
     return child1, child2
 
 def mutate(individual):
     x1, x2 = individual
-    if random.random() < mutation_probability:
-        x1 += random.gauss(0, 1)
-    if random.random() < mutation_probability:
-        x2 += random.gauss(0, 1)
+    if use_real_version.get():
+        if random.random() < mutation_probability:
+            x1 += random.gauss(0, 1)
+        if random.random() < mutation_probability:
+            x2 += random.gauss(0, 1)
+    else: 
+        if random.random() < mutation_probability:
+            x1 += random.randint(-1, 1)
+        if random.random() < mutation_probability:
+            x2 += random.randint(-1, 1)
 
     x1 = max(min_value, min(x1, max_value))
     x2 = max(min_value, min(x2, max_value))
+    
     return (x1, x2)
 
-def create_new_generation(segment, alpha=0.5):
-    best = segment[0]
-    others = segment[1:]
+def create_new_generation(modefied_segment, standart_segment, alpha=0.5):
+    if use_modified_version.get():
+        best = modefied_segment[0]
+        others = modefied_segment[1:]
 
-    child1, child2 = crossover(best, others[0], alpha)
-    child3, child4 = crossover(best, others[1], alpha)
+        child1, child2 = crossover(best, others[0], alpha)
+        child3, child4 = crossover(best, others[1], alpha)
 
-    mutated_child3 = mutate(child3)
-    mutated_child4 = mutate(child4)
+        mutated_child3 = mutate(child3)
+        mutated_child4 = mutate(child4)
 
-    return [child1, child2, mutated_child3, mutated_child4]
+        return [child1, child2, mutated_child3, mutated_child4]
+    else:
+        parents = random.sample(standart_segment, 2)
+        child1, child2 = crossover(parents[0], parents[1], alpha)
 
-def create_new_generation_standard(segment, alpha=0.5):
-    parents = random.sample(segment, 2)
-    child1, child2 = crossover(parents[0], parents[1], alpha)
-    child1 = mutate(child1)
-    child2 = mutate(child2)
-    return [child1, child2, mutate(random.choice(segment)), mutate(random.choice(segment))]
+        child1 = mutate(child1)
+        child2 = mutate(child2)
+
+        return [child1, child2, mutate(random.choice(standart_segment)), mutate(random.choice(standart_segment))]
 
 def toggle_mode():
     mode_label.config(
         text="Режим: Модифицированный" if use_modified_version.get() else "Режим: Обычный"
+    )
+
+def toggle_encoding():
+    encoding_label.config(
+        text="Режим: Вещественный" if use_real_version.get() else "Режим: Целочисленный"
     )
 
 def run_algorithm():
@@ -85,10 +103,7 @@ def run_algorithm():
         new_population = []
         for segment in segments:
             selected_individuals = ranking_selection(segment)
-            if use_modified_version.get():
-                new_generation = create_new_generation(selected_individuals)
-            else:
-                new_generation = create_new_generation_standard(segment)
+            new_generation = create_new_generation(selected_individuals, segment)
             new_population.extend(new_generation)
 
         population = new_population
@@ -102,12 +117,22 @@ def run_algorithm():
         for row in table.get_children():
             table.delete(row)
         for i, individual in enumerate(population):
-            table.insert("", "end", values=(i + 1, fitness(individual), individual[0], individual[1]))
+            if use_real_version.get():
+                table.insert("", "end", values=(i + 1, f"{function(*individual):.5f}", f"{individual[0]:.5f}", f"{individual[1]:.5f}"))
+            else:
+                table.insert("", "end", values=(i + 1, int(round(function(*individual))), int(round(individual[0])), int(round(individual[1]))))
 
+    if use_real_version.get():
         result_label.config(text=f"Лучшее решение:\nX[1] = {global_best_solution[0]:.5f}\nX[2] = {global_best_solution[1]:.5f}")
         function_value_label.config(text=f"Значение функции: {function(*global_best_solution):.5f}")
-        generation_count_label.config(text=f"Общее количество поколений: {total_generations}")
+    else:
+        result_label.config(text=f"Лучшее решение:\nX[1] = {int(round(global_best_solution[0]))}\nX[2] = {int(global_best_solution[1])}")
+        function_value_label.config(text=f"Значение функции: {int(round(function(*global_best_solution)))}")
+
+    generation_count_label.config(text=f"Общее количество поколений: {total_generations}")
+
     toggle_mode()
+    toggle_encoding()
 
 root = tk.Tk()
 root.title("Генетический алгоритм")
@@ -119,6 +144,7 @@ total_generations = 0
 population = None
 
 use_modified_version = tk.BooleanVar(value=True)
+use_real_version = tk.BooleanVar(value=True)
 
 # Параметры
 params_frame = tk.LabelFrame(root, text="Параметры", padx=10, pady=10)
@@ -172,8 +198,13 @@ toggle_mode_button = tk.Checkbutton(
 )
 toggle_mode_button.grid(row=5, column=0, sticky="w")
 
+encoding_toggle_button = tk.Checkbutton(
+    controls_frame, text="Использовать вещественное кодирование", variable=use_real_version, command=toggle_encoding
+)
+encoding_toggle_button.grid(row=6, column=0, sticky="w")
+
 generation_count_label = tk.Label(controls_frame, text="Общее количество поколений:")
-generation_count_label.grid(row=6, column=0, sticky="w")
+generation_count_label.grid(row=7, column=0, sticky="w")
 
 # Результаты
 results_frame = tk.LabelFrame(root, text="Результаты", padx=10, pady=10)
@@ -187,6 +218,9 @@ function_value_label.grid(row=1, column=0, sticky="w")
 
 mode_label = tk.Label(results_frame, text="Режим: Модифицированный")
 mode_label.grid(row=2, column=0, sticky="w")
+
+encoding_label = tk.Label(results_frame, text="Кодирование: Вещественное")
+encoding_label.grid(row=5, column=0, sticky="w")
 
 # Таблица
 table_frame = tk.Frame(root)
