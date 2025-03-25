@@ -1,0 +1,143 @@
+C:\Users\glugo\Downloads\hashcat-6.2.6>hashcat -m 0 -a 3 -O --opencl-device-types 2 -w 3 initial_hashes.txt 89?d?d?d?d?d?d?d?d?d -o cracked_hashes.txt
+hashcat (v6.2.6) starting
+
+OpenCL API (OpenCL 3.0 ) - Platform #1 [Intel(R) Corporation]
+=============================================================
+* Device #1: Intel(R) Iris(R) Xe Graphics, 3200/6466 MB (1616 MB allocatable), 96MCU
+
+Minimum password length supported by kernel: 0
+Maximum password length supported by kernel: 55
+
+Hashes: 50000 digests; 49959 unique digests, 1 unique salts
+Bitmaps: 16 bits, 65536 entries, 0x0000ffff mask, 262144 bytes, 5/13 rotates
+
+Optimizers applied:
+* Optimized-Kernel
+* Zero-Byte
+* Precompute-Init
+* Meet-In-The-Middle
+* Early-Skip
+* Not-Salted
+* Not-Iterated
+* Single-Salt
+* Brute-Force
+* Raw-Hash
+
+Watchdog: Hardware monitoring interface not found on your system.
+Watchdog: Temperature abort trigger disabled.
+
+Host memory required for this attack: 1448 MB
+
+[s]tatus [p]ause [b]ypass [c]heckpoint [f]inish [q]uit =>
+
+Session..........: hashcat
+Status...........: Running
+Hash.Mode........: 0 (MD5)
+Hash.Target......: hashes.txt
+Time.Started.....: Thu Oct 24 01:46:08 2024 (37 secs)
+Time.Estimated...: Thu Oct 24 01:50:22 2024 (3 mins, 37 secs)
+Kernel.Feature...: Optimized Kernel
+Guess.Mask.......: 89?d?d?d?d?d?d?d?d?d [11]
+Guess.Queue......: 1/1 (100.00%)
+Speed.#1.........:  4233.8 kH/s (70.02ms) @ Accel:64 Loops:100 Thr:64 Vec:4
+Recovered........: 3860/49959 (7.73%) Digests (total), 3860/49959 (7.73%) Digests (new)
+Remaining........: 46099 (92.27%) Digests
+Recovered/Time...: CUR:N/A,N/A,N/A AVG:N/A,N/A,N/A (Min,Hour,Day)
+Progress.........: 78643200/1000000000 (7.86%)
+Rejected.........: 0/78643200 (0.00%)
+Restore.Point....: 393216/10000000 (3.93%)
+Restore.Sub.#1...: Salt:0 Amplifier:0-100 Iteration:0-100
+Candidate.Engine.: Device Generator
+Candidates.#1....: 89123106412 -> 89392135969
+
+[s]tatus [p]ause [b]ypass [c]heckpoint [f]inish [q]uit =>
+
+Session..........: hashcat
+Status...........: Running
+Hash.Mode........: 0 (MD5)
+Hash.Target......: hashes.txt
+Time.Started.....: Thu Oct 24 01:46:08 2024 (37 secs)
+Time.Estimated...: Thu Oct 24 01:50:22 2024 (3 mins, 37 secs)
+Kernel.Feature...: Optimized Kernel
+Guess.Mask.......: 89?d?d?d?d?d?d?d?d?d [11]
+Guess.Queue......: 1/1 (100.00%)
+Speed.#1.........:  4233.8 kH/s (70.02ms) @ Accel:64 Loops:100 Thr:64 Vec:4
+Recovered........: 3860/49959 (7.73%) Digests (total), 3860/49959 (7.73%) Digests (new)
+Remaining........: 46099 (92.27%) Digests
+Recovered/Time...: CUR:N/A,N/A,N/A AVG:N/A,N/A,N/A (Min,Hour,Day)
+Progress.........: 78643200/1000000000 (7.86%)
+Rejected.........: 0/78643200 (0.00%)
+Restore.Point....: 786432/10000000 (7.86%)
+Restore.Sub.#1...: Salt:0 Amplifier:0-100 Iteration:0-100
+Candidate.Engine.: Device Generator
+Candidates.#1....: 89125502769 -> 89394057666
+
+[s]tatus [p]ause [b]ypass [c]heckpoint [f]inish [q]uit =>
+
+Session..........: hashcat
+Status...........: Running
+Hash.Mode........: 0 (MD5)
+Hash.Target......: hashes.txt
+Time.Started.....: Thu Oct 24 01:46:08 2024 (2 mins, 58 secs)
+Time.Estimated...: Thu Oct 24 01:53:17 2024 (4 mins, 11 secs)
+Kernel.Feature...: Optimized Kernel
+Guess.Mask.......: 89?d?d?d?d?d?d?d?d?d [11]
+Guess.Queue......: 1/1 (100.00%)
+Speed.#1.........:  2415.7 kH/s (70.60ms) @ Accel:64 Loops:100 Thr:64 Vec:4
+Recovered........: 19160/49959 (38.35%) Digests (total), 19160/49959 (38.35%) Digests (new)
+Remaining........: 30799 (61.65%) Digests
+Recovered/Time...: CUR:7616,N/A,N/A AVG:6432.25,N/A,N/A (Min,Hour,Day)
+Progress.........: 393216000/1000000000 (39.32%)
+Rejected.........: 0/393216000 (0.00%)
+Restore.Point....: 3932160/10000000 (39.32%)
+Restore.Sub.#1...: Salt:0 Amplifier:0-100 Iteration:0-100
+Candidate.Engine.: Device Generator
+Candidates.#1....: 89121530643 -> 89398114325
+
+[s]tatus [p]ause [b]ypass [c]heckpoint [f]inish [q]uit =>
+
+                                                       Session..........: hashcat
+ Status...........: Running
+Hash.Mode........: 0 (MD5)
+Approaching final keyspace -
+Time.Started.....: Thu Oct 24 01:46:08 2024 (10Time.Started.....: Thu Oct 24 01:46:08 2024 (10 mins, 43 secs)
+
+
+[s]tatus [p]ause [b]ypass [c]heckpoint [f]inish [q]uit => Time.Estimated...: Thu Oct 24 01:57:01 2024 (10 secs)
+Kernel.Feature...: Optimized Kernel
+Guess.Mask.......: 89?d?d?d?d?d?d?d?d?d [11]
+Guess.Queue......: 1/1 (100.00%)
+Speed.#1.........:  1566.9 kH/s (71.26ms) @ Accel:64 Loops:100 Thr:64 Vec:4
+Recovered........: 48073/49959 (96.22%) Digests (total), 48073/49959 (96.22%) Digests (new)
+Remaining........: 1886 (3.78%) Digests
+Recovered/Time...: CUR:7545,N/A,N/A AVG:4485.95,N/A,N/A (Min,Hour,Day)
+Progress.........: 983040000/1000000000 (98.30%)
+Rejected.........: 0/983040000 (0.00%)
+Restore.Point....: 9437184/10000000 (94.37%)
+Restore.Sub.#1...: Salt:0 Amplifier:0-100 Iteration:0-100
+Candidate.Engine.: Device Generator
+Candidates.#1....: 89129694257 -> 89396412273
+
+
+Session..........: hashcat
+Status...........: Exhausted
+Hash.Mode........: 0 (MD5)
+Hash.Target......: hashes.txt
+Time.Started.....: Thu Oct 24 01:46:08 2024 (10 mins, 49 secs)
+Time.Estimated...: Thu Oct 24 01:56:57 2024 (0 secs)
+Kernel.Feature...: Optimized Kernel
+Guess.Mask.......: 89?d?d?d?d?d?d?d?d?d [11]
+Guess.Queue......: 1/1 (100.00%)
+Speed.#1.........:  1541.0 kH/s (44.42ms) @ Accel:64 Loops:100 Thr:64 Vec:4
+Recovered........: 48905/49959 (97.89%) Digests (total), 48905/49959 (97.89%) Digests (new)
+Remaining........: 1054 (2.11%) Digests
+Recovered/Time...: CUR:8377,N/A,N/A AVG:4518.45,N/A,N/A (Min,Hour,Day)
+Progress.........: 1000000000/1000000000 (100.00%)
+Rejected.........: 0/1000000000 (0.00%)
+Restore.Point....: 10000000/10000000 (100.00%)
+Restore.Sub.#1...: Salt:0 Amplifier:0-100 Iteration:0-100
+Candidate.Engine.: Device Generator
+Candidates.#1....: 89121909383 -> 89396497383
+
+Started: Thu Oct 24 01:45:58 2024
+Stopped: Thu Oct 24 01:56:59 2024
