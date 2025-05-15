@@ -3,15 +3,17 @@ import random
 
 from cards_data import banks, payment_systems_codes
 from generation_functions import (generate_name, generate_passport, generate_snils, generate_unique_card, generate_doctors_data,
-                                  generate_analyses_date, generate_price, generate_visit_date, generate_next_visit_date)
+                                  generate_analyses_date, generate_visit_date, generate_next_visit_date)
 
 
-while True:
-    n = int(input("Введите кол-во ячеек. Число должно быть больше 50.000. \nКол-во: "))
-    if n < 50_000:
-        print("Ошибка! Введите число больше чем 49.999")
-    else:
-        break
+# while True:
+#     n = int(input("Введите кол-во ячеек. Число должно быть больше 50.000. \nКол-во: "))
+#     if n < 50_000:
+#         print("Ошибка! Введите число больше чем 49.999")
+#     else:
+#         break
+
+n = int(input("Введите кол-во ячеек. \nКол-во: "))
 
 print("Введите веса для банков. В сумме должно быть больше 0!")
 bank_weights = []
@@ -51,7 +53,7 @@ for _ in range(n):
     doctor = generate_doctors_data(False)
     symptoms = generate_doctors_data(doctor)[0]
     analyses = generate_doctors_data(doctor)[1]
-    price = generate_price()
+    price = generate_doctors_data(doctor)[2]
 
     record = {
         "ФИО": patient["ФИО"],
@@ -62,8 +64,10 @@ for _ in range(n):
         "Дата посещения врача": patient["Дата посещения врача"],
         "Анализы": ', '.join(analyses),
         "Дата получения анализов": patient["Дата получения анализов"],
-        "Стоимость анализов": price,
-        "Карта оплаты": ', '.join(patient["Карта оплаты"])
+        "Стоимость анализов, руб": price,
+        "Номер карты": patient["Карта оплаты"][0],
+        "Банк": patient["Карта оплаты"][1],
+        "Платёжная система": patient["Карта оплаты"][2]
     }
 
     patient["Дата посещения врача"] = generate_next_visit_date(patient["Дата получения анализов"])
@@ -71,8 +75,8 @@ for _ in range(n):
 
     slots.append(record)
 
-with open('1 Lab/dataset.csv', mode='w', newline='', encoding='utf-8') as file:
-    writer = csv.DictWriter(file, fieldnames=["ФИО", "Паспортные данные", "СНИЛС", "Симптомы", "Выбор врача", "Дата посещения врача", "Анализы", "Дата получения анализов", "Стоимость анализов", "Карта оплаты"])
+with open('1 semester/1 Lab/dataset.csv', mode='w', newline='', encoding='utf-8') as file:
+    writer = csv.DictWriter(file, fieldnames=["ФИО", "Паспортные данные", "СНИЛС", "Симптомы", "Выбор врача", "Дата посещения врача", "Анализы", "Дата получения анализов", "Стоимость анализов, руб", "Номер карты", "Банк", "Платёжная система"])
     writer.writeheader()
     writer.writerows(slots)
 

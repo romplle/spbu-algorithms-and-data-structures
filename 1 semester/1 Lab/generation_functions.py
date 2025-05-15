@@ -31,17 +31,21 @@ def generate_passport():
 def generate_snils():
     return f"{random.randint(0, 999):03}" + '-' f"{random.randint(0, 999):03}" + '-' f"{random.randint(0, 999):03}" + ' ' f"{random.randint(0, 99):02}" 
 
-def generate_doctors_data(doctor):
+def generate_doctors_data(doctor=None):
     if (not doctor):
         random_doctor = random.choice(list(doctors_data.keys()))
         return random_doctor
     else:
-        symptoms, tests = doctors_data[doctor]
-
+        symptoms, tests_dict = doctors_data[doctor]
+        
         random_symptoms = random.sample(symptoms, random.choices(range(1, 11), weights=[6, 7, 8, 7, 6, 5, 4, 3, 2, 1])[0])
-        random_tests = random.sample(tests, random.choices(range(1, 6), weights=[2, 3, 2, 1, 1])[0])
-
-        return random_symptoms, random_tests
+        
+        tests_list = list(tests_dict.keys())
+        random_tests = random.sample(tests_list, random.choices(range(1, 6), weights=[2, 3, 2, 1, 1])[0])
+        
+        total_price = sum(tests_dict[test] for test in random_tests)
+        
+        return random_symptoms, random_tests, total_price
   
 def generate_visit_date():
     today = datetime.now()
@@ -90,7 +94,8 @@ def generate_card(bank_weights, payment_weights):
     payment_system = random.choices(list(payment_systems_codes.keys()), weights=payment_weights, k=1)[0] 
 
     card_number = f"{payment_systems_codes[payment_system]}{bin_code}{random.randint(0, 9999999999):010}"
-    
+    card_number = f"{card_number[:4]} {card_number[4:8]} {card_number[8:12]} {card_number[12:]}"
+
     if card_number in used_cards:
         used_cards[card_number] += 1
     else:
@@ -103,6 +108,3 @@ def generate_unique_card(bank_weights, payment_weights):
         card_number, bank, payment_system = generate_card(bank_weights, payment_weights)
         if used_cards[card_number] <= 5:
             return card_number, bank, payment_system
-
-def generate_price():
-    return str(random.randint(500, 10000)) + ' руб.'
