@@ -1,4 +1,5 @@
-# Lab Projects: Semester 3
+# Lab Projects
+# Semester 3
 
 ## Lab 1: Synthetic Dataset Generator for Paid Polyclinic
 
@@ -83,7 +84,7 @@ This tool provides functionality for anonymizing datasets and assessing k-anonym
    pip install pandas
    ```
 2. Clone the repository from GitHub.
-3. Place the input dataset (`dataset.csv`) in the `1 Lab/` directory.
+3. Place the input dataset (`dataset.csv`) in the `2 Lab/` directory.
 
 ### **Usage**
 1. **Run the script**:
@@ -204,3 +205,309 @@ This project implements a Swarm Intelligence algorithm (Particle Swarm Optimizat
 ### **Output**
 - Visual representation of particle movements.
 - Best solution and fitness value displayed at the end of the run.
+
+---
+
+# Semester 4
+
+## Lab 1: Traveling Salesman Problem - Nearest Neighbor Algorithm  
+
+### **Overview**  
+This project implements a graphical solution to the Traveling Salesman Problem (TSP) using the **Nearest Neighbor Algorithm**. The application provides an interactive interface for constructing weighted directed graphs, finding the shortest Hamiltonian cycle, and visualizing the optimal path.  
+
+### **Features**  
+- **Interactive Graph Editor**:  
+  - Add nodes by clicking on the canvas.  
+  - Create weighted edges by selecting two nodes (automatically calculates Euclidean distance).  
+- **TSP Solver**:  
+  - Finds the shortest cycle using the greedy nearest-neighbor approach.  
+  - Supports optimization by testing all possible starting nodes (optional).  
+- **Visualization**:  
+  - Displays the original graph and the computed solution side-by-side.  
+  - Highlights the optimal path with directional arrows.  
+- **Data Management**:  
+  - Save/load graphs in JSON format.  
+  - Undo/clear functionality for graph editing.  
+
+### **Technical Implementation**  
+- **Algorithm**:  
+  - Starts from a node, iteratively visits the nearest unvisited neighbor.  
+  - Optional optimization: tests every node as a starting point for better solutions.  
+- **Constraints**:  
+  - Handles directed edges (non-symmetric distances).  
+  - Requires a complete cycle (returns to the starting node if possible).  
+- **Performance**:  
+  - Time complexity: *O(n²)* per starting node (or *O(n)* for a fixed start).  
+
+### **Setup**  
+1. Install Python and required libraries:
+   ```bash
+   pip install numpy
+   ```
+2. Clone the repository from GitHub.
+3. Use the input graph (`graph.json`) in the `2 semester/1 Lab/` directory.
+
+### **Usage**  
+1. **Build the Graph**:  
+   - Left-click to add nodes.  
+   - Select two nodes to create an edge (weight = Euclidean distance).  
+2. **Solve TSP**:  
+   - Click *"Рассчитать"* to compute the shortest cycle.  
+   - Enable *"Использовать модификацию"* to test all starting nodes.  
+3. **Save/Load**:  
+   - Use *"Загрузить граф"* to import a pre-built graph (JSON format).  
+
+---  
+
+## Lab 2: Traveling Salesman Problem - Simulated Annealing  
+
+### **Overview**  
+This project implements a **Simulated Annealing** algorithm with an optional *"Fast Annealing"* modification to solve the Traveling Salesman Problem (TSP). The application provides comparative analysis with the Nearest Neighbor method from Lab 1, evaluating performance on graphs of varying sizes.  
+
+### **Key Features**  
+- **Two Cooling Strategies**:  
+  - Standard exponential cooling (`T = T0 * α^k`)  
+  - Fast annealing (`T = T0 / (1 + k)`)  
+- **Interactive Graph Interface**:  
+  - Visual graph construction with weighted edges  
+  - Hamiltonian cycle validation  
+- **Performance Metrics**:  
+  - Execution time tracking  
+  - Path length optimization  
+- **Comparative Analysis**:  
+  - Benchmarking against Nearest Neighbor results  
+
+### **Technical Implementation**  
+- **Algorithm Core**:  
+  ```python
+  if fast_annealing:
+      T = T0 / (1 + k)
+  else: 
+      T = T0 * (α ** k)
+  ```  
+- **Neighbor Selection**:  
+  - 2-opt swaps for local search  
+  - Boltzmann probability acceptance: `exp(-ΔE/T)`  
+- **Distance Matrix**: Handles asymmetric edge weights (directed graphs)  
+
+### **Setup**  
+1. Install Python and required libraries:
+   ```bash
+   pip install numpy
+   ```
+2. Clone the repository from GitHub.
+3. Use the input graph (`graph.json`) in the `2 semester/1 Lab/` directory.
+
+### **Usage**  
+1. **Parameters**:  
+   - Initial temperature (`T0=5000`)  
+   - Iterations (`max_iter=10000`)  
+   - Cooling rate (`α=0.5`)  
+2. **Workflow**:  
+   ```plaintext
+   1. Build graph → 2. Set parameters → 3. Run → 4. Compare with Lab 1
+   ```  
+3. **Hotkeys**:  
+   - Left-click: Add node  
+   - Select two nodes: Create edge  
+
+---  
+
+## Lab 3: Traveling Salesman Problem - Ant Colony Optimization  
+
+### **Overview**  
+This project implements an **Ant Colony Optimization (ACO)** algorithm with a *"Wandering Colony"* modification to solve the Traveling Salesman Problem. The solution demonstrates swarm intelligence principles through pheromone-based path optimization, with comparative analysis against previous methods (Nearest Neighbor and Simulated Annealing).
+
+### **Key Features**  
+- **Dual Algorithm Modes**:  
+  - Standard ACO with random starting cities  
+  - *Wandering Colony* modification (all ants start from same city)  
+- **Interactive Parameter Control**:  
+  - Adjustable pheromone influence (α)  
+  - Distance heuristic weight (β)  
+  - Evaporation rate customization  
+- **Visual Analytics**:  
+  - Real-time solution visualization  
+  - Side-by-side graph comparison  
+
+### **Technical Implementation**  
+```python
+# Core probability calculation
+probability = (τ^α) * (η^β) / Σ(τ^α * η^β)
+where:
+τ = pheromone level  
+η = 1/distance (heuristic)  
+α/β = influence parameters
+```
+
+- **Pheromone Update**:  
+  ```python
+  pheromone *= (1 - evaporation)  
+  pheromone[best_path] += Q/path_length
+  ```  
+- **Path Construction**:  
+  - Roulette wheel selection for next node  
+  - 2-opt local search integration  
+
+### **Setup**  
+1. Install Python and required libraries:
+   ```bash
+   pip install numpy
+   ```
+2. Clone the repository from GitHub.
+3. Use the input graph (`graph.json`) in the `2 semester/1 Lab/` directory. 
+
+### **Usage**  
+1. **Graph Setup**:  
+   - Left-click to add nodes  
+   - Select two nodes to create weighted edges  
+2. **Parameter Configuration**:  
+   ```python
+   Recommended settings:
+   - Ants: 10-20
+   - Iterations: 50-200  
+   - α=1, β=2-5  
+   - Evaporation: 0.3-0.7
+   ```  
+3. **Execution**:  
+   - Enable *"Wandering Colony"* for focused search  
+   - Compare results with Lab 1/2 datasets  
+
+---
+
+## Lab 4: Data Recovery - Missing Value Imputation  
+
+### **Overview**  
+This project implements three methods for missing data imputation in medical datasets: **Hot-Deck**, **Mean Value**, and **Linear Regression**. The application evaluates imputation quality through statistical error metrics and comparative analysis of restored distributions.
+
+### **Key Features**  
+- **Multi-Method Imputation**:  
+  - **Hot-Deck**: Random sampling from existing values  
+  - **Mean Value**: Column-average replacement  
+  - **Linear Regression**: Predictive modeling for numeric fields  
+- **Dataset Handling**:  
+  - Supports small (~10K), medium (~75K), and large (~250K) datasets  
+  - Controlled missing value injection (3-30% gaps)  
+- **Error Analysis**:  
+  - Categorical vs numeric error differentiation  
+  - Mean absolute percentage error (MAPE) calculation  
+
+### **Imputation Methods**  
+| Method            | Best For                | 
+|-------------------|-------------------------|
+| Hot-Deck          | Categorical data        |
+| Mean Value        | Normally-distributed    |
+| Linear Regression | Correlated numeric      |
+
+### **Technical Implementation**  
+#### **Core Algorithms**  
+```python
+# Hot-Deck Imputation
+df_filled.loc[missing, col] = np.random.choice(non_missing, size=missing.sum())
+
+# Linear Regression
+model = LinearRegression(positive=True)
+model.fit(X_train, y_train)  
+predicted = model.predict(X_test)
+```
+
+#### **Data Flow**  
+1. **Missing Value Generation**:  
+   ```python
+   indices_to_drop = np.random.choice(df.index, size=n, replace=False)
+   df_with_nans.loc[indices_to_drop, column] = np.nan
+   ```  
+2. **Regression Features**:  
+   - One-hot encoded symptoms/doctor specialties  
+   - Numeric analysis costs as target  
+
+### **Setup**  
+1. Install Python and required libraries:
+   ```bash
+   pip install numpy pandas scikit-learn
+   ```
+2. Clone the repository from GitHub.
+3. Use the input dataset (`dataset.csv`) in the `1 semester/1 Lab/` directory.
+
+### **Usage**  
+1. Load CSV file  
+2. Set deletion percentage (e.g., 20%)  
+3. Output: `dataset_nan.csv`  
+
+---  
+
+## Lab 5: Data Clustering with FOREL Algorithm  
+
+### **Overview**  
+This project implements a comprehensive clustering pipeline using the **FOREL algorithm** with **Euclidean distance metric**, featuring **SPA feature selection** and **cluster compactness evaluation**. The system compares clustering quality across original, anonymized, and feature-selected datasets.
+
+### **Key Features**  
+- **Multi-Stage Clustering Pipeline**:  
+  - Original data clustering  
+  - Feature-selected clustering (SPA algorithm)  
+  - Anonymized data clustering  
+- **Quality Metrics**:  
+  - Cluster compactness measurement  
+  - Comparative analysis across different data treatments  
+- **Visual Analytics**:  
+  - 3D visualization of clusters  
+  - Fixed-axis comparison for consistent evaluation  
+
+### **Technical Implementation**  
+
+#### **Core Algorithms**  
+```python
+# FOREL Clustering
+def forel_cluster(X):
+    while unassigned_points:
+        center = random_unassigned_point()
+        while True:
+            in_radius = points_within(center, radius)
+            new_center = centroid(in_radius)
+            if distance(center, new_center) < epsilon:
+                break
+            center = new_center
+        assign_to_cluster(in_radius)
+```
+
+#### **SPA Feature Selection**  
+```python
+# Evolutionary feature selection
+population = [random_features() for _ in range(pop_size)]
+for generation in generations:
+    evaluate_fitness(population)  # Using cluster compactness
+    new_population = [mutate(best_features) for _ in range(pop_size)]
+```
+
+### **Setup**  
+1. Install Python and required libraries:
+   ```bash
+   pip install numpy pandas scikit-learn matplotlib scipy
+   ```
+2. Clone the repository from GitHub.
+
+### **Usage**  
+
+#### **1. Clustering Workflow**  
+1. **Initial Clustering**:  
+   - Run FOREL on all features  
+   - Visualize in 3D space  
+2. **Feature Selection**:  
+   - Execute SPA algorithm  
+   - Select top N informative features  
+3. **Selected Feature Clustering**:  
+   - Re-run FOREL on reduced feature set  
+4. **Data Anonymization**:  
+   - Apply σ/3 discretization  
+5. **Anonymized Data Clustering**:  
+   - Compare results with original  
+
+#### **2. Parameter Configuration**  
+| Parameter            | Default | Description                     |  
+|----------------------|---------|---------------------------------|  
+| Cluster radius       | 2.5     | FOREL neighborhood size         |  
+| Min cluster size     | 10      | Minimum points per cluster      |  
+| SPA features         | 5       | Number of features to select    |  
+| SPA generations      | 50      | Evolutionary iterations         |  
+
+---  
